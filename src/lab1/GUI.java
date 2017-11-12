@@ -36,7 +36,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
-/*this is GUI for this project*/
+
 public class GUI extends Application {
 	class Input
 	{
@@ -390,7 +390,7 @@ public class GUI extends Application {
 
 
             	pane.setAlignment(Pos.CENTER);
-                Image image=new Image("file:\\C:\\Users\\WeiBoWen\\Desktop\\aaa\\out.png", 700, 950, false, false);
+                Image image=new Image("file:\\D:\\out.png", 700, 950, false, false);
                 pane.getChildren().add(new ImageView(image));
 
                 a.setTitle("有向图");
@@ -674,7 +674,7 @@ public class GUI extends Application {
 					     D.picture_qjc();
 
 					 	 pane.setAlignment(Pos.CENTER);
-					     Image image=new Image("file:\\C:\\Users\\WeiBoWen\\Desktop\\aaa\\qjcout.png", 700, 950, false, false);
+					     Image image=new Image("file:\\D:\\qjcout.png", 700, 950, false, false);
 					     pane.getChildren().add(new ImageView(image));
 
 
@@ -1016,7 +1016,7 @@ public class GUI extends Application {
 		 				D.picture_zdlj();
 
 		 				pane.setAlignment(Pos.CENTER);
-		 				Image image=new Image("file:\\C:\\Users\\WeiBoWen\\Desktop\\aaa\\zdljout.png", 700, 950, false, false);
+		 				Image image=new Image("file:\\D:\\zdljout.png", 700, 950, false, false);
 		 				pane.getChildren().add(new ImageView(image));
 
 		 				a.setTitle("最短路径有向图");
@@ -1297,7 +1297,7 @@ public class GUI extends Application {
 			 D.picture_sjyz();
 
          	 pane.setAlignment(Pos.CENTER);
-             Image image=new Image("file:\\C:\\Users\\WeiBoWen\\Desktop\\aaa\\sjyzout.png", 700, 950, false, false);
+             Image image=new Image("file:\\D:\\sjyzout.png", 700, 950, false, false);
              pane.getChildren().add(new ImageView(image));
 
              a.setTitle("随机游走有向图");
