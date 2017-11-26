@@ -1,4 +1,3 @@
-package lab1;
 
 //GraphViz.java - a simple API to call dot from Java programs
 /*$Id$*/
@@ -80,7 +79,7 @@ public class GraphViz
 * Where is your dot program located? It will be called externally.
 */
 //private static String DOT = "/usr/bin/dot"; // Linux
-private static String DOT = "E:\\Graphvz\\bin\\dot.exe"; // Windows
+private static String DOT = "D:\\eclipse\\Graphviz2.38\\bin\\dot.exe"; // Windows
 
 /**
 * The source of the graph written in dot language.

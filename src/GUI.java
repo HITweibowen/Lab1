@@ -1,4 +1,3 @@
-package lab1;
 
 import java.io.*;
 import javafx.geometry.Pos;
@@ -133,23 +132,6 @@ public class GUI extends Application {
 	    gridpaneLeft = new GridPane();
 	    gridpaneRight = new GridPane();
 
-	    /*Text text2 = new Text("处理文件内容为：");
-		VText.addElement(text2);
-		text2.setFill(Color.RED);
-        text2.setFont(Font.font(15));
-
-	    ListView<Text> list2 = new ListView<>();
-		list2.getItems().add(text2);
-
-        Text text1 = new Text("原文件内容为：");
-        text1.setFill(Color.RED);
-        text1.setFont(Font.font(15));
-	    VText.addElement(text1);
-
-		ListView<Text> list = new ListView<>();
-		list.getItems().add(text1);*/
-
-		// File Menu
 		Menu FileMenu = new Menu("_文件");
 
 		MenuItem NewItem = new MenuItem("_读文件建图");
@@ -364,11 +346,11 @@ public class GUI extends Application {
 		}
 
 	public void ReadFile(Vector<Text> VText)//, ListView<Text> list, ListView<Text>list2)
-	 {
-		 gridpaneRight.getChildren().clear();
-		 gridpaneLeft.getChildren().clear();
+	{
+		gridpaneRight.getChildren().clear();
+		gridpaneLeft.getChildren().clear();
 
-		 D =  new Digraph();
+		D =  new Digraph();
 
 	    FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
@@ -384,20 +366,21 @@ public class GUI extends Application {
         button.setStyle("-fx-font: 20 arial; -fx-base: #ee2211;");
 
         button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	D.picture();
 
+        public void handle(ActionEvent event) {
+        	//调用控制类，生成有向图图片
+            ctrl_GraphViz pic = new ctrl_GraphViz(D.HeadNodeList, D.KeyNode, D.ShortPath);
+            pic.picture();
 
-            	pane.setAlignment(Pos.CENTER);
-                Image image=new Image("file:\\D:\\out.png", 700, 950, false, false);
-                pane.getChildren().add(new ImageView(image));
+            pane.setAlignment(Pos.CENTER);
+            Image image=new Image("file:\\D:\\out.png", 700, 950, false, false);
+            pane.getChildren().add(new ImageView(image));
 
-                a.setTitle("有向图");
-                a.setScene(scene);
-                a.setX(40);
-                a.setY(20);
-                a.show();
+            a.setTitle("有向图");
+            a.setScene(scene);
+            a.setX(40);
+            a.setY(20);
+            a.show();
             }
         });
 
@@ -423,11 +406,12 @@ public class GUI extends Application {
 		gridpaneLeft.add(list, 0,2);
         gridpaneLeft.add(list2, 0,5);
 
-		 try {
-		     D.ReadFileBuildDigraph(file.toString());
-	     } catch (Exception e1) {
+		try {
+			//读文件建立有向图D
+		    D.ReadFileBuildDigraph(file.toString());
+	    } catch (Exception e1) {
 	        // TODO Auto-generated catch block
-	         e1.printStackTrace();}
+	        e1.printStackTrace();}
 
 		try(
 				Reader reader = new InputStreamReader(new FileInputStream(file)))
@@ -543,201 +527,208 @@ public class GUI extends Application {
 		 return Change;
 	 }
 
-
-
 	public void InputWords(BorderPane layout)
-	 {
-		 gridpaneRight.getChildren().clear();
+	{
+		gridpaneRight.getChildren().clear();
 
-		 ListView<Text> list = new ListView<>();
-		 TextField TFiled1 = new TextField ();
-		 TFiled1.setPromptText("请输入第一个单词");
-		 TextField TFiled2 = new TextField ();
-		 TFiled2.setPromptText("请输入第二个单词");
-		 Text T1 = new Text("Word1");
-		 Text T2 = new Text("Word2");
-		 Text T = new Text("请输入要查询桥接词的两个单词");
+		ListView<Text> list = new ListView<>();
+		TextField TFiled1 = new TextField ();
+		TFiled1.setPromptText("请输入第一个单词");
+		TextField TFiled2 = new TextField ();
+		TFiled2.setPromptText("请输入第二个单词");
+		Text T1 = new Text("Word1");
+		Text T2 = new Text("Word2");
+		Text T = new Text("请输入要查询桥接词的两个单词");
 
-		 T.setFill(Color.RED);
-		 T.setFont(Font.font(15));
+		T.setFill(Color.RED);
+		T.setFont(Font.font(15));
 
-		 T1.setFill(Color.RED);
-		 T2.setFill(Color.RED);
-		 T1.setFont(Font.font(15));
-		 T2.setFont(Font.font(15));
-
-
-		 VText.addElement(T1);
-		 VText.addElement(T2);
-		 VText.addElement(T);
+		T1.setFill(Color.RED);
+		T2.setFill(Color.RED);
+		T1.setFont(Font.font(15));
+		T2.setFont(Font.font(15));
 
 
-		 Button t = new Button("确定");
-		 t.setStyle("-fx-font: 15 arial; -fx-base: #ee2211;");
-		 t.setOnAction(e->{
+		VText.addElement(T1);
+		VText.addElement(T2);
+		VText.addElement(T);
 
-			 String S1 = TFiled1.getText();
-			 String S2 = TFiled2.getText();
-			 if (S1.length() >= 1 && S2.length() >= 1)
-			 {
-				 gridpaneRight.getChildren().remove(list);
-				 list.getItems().clear();
 
-				 String Temp1 = ChangeText(S1);
-				 String Temp2 = ChangeText(S2);
+		Button t = new Button("确定");
+		t.setStyle("-fx-font: 15 arial; -fx-base: #ee2211;");
+		t.setOnAction(e->{
 
-				 if (Temp1.length() == 0 || Temp2.length() == 0)
-				 {
-					 Text T3 = new Text("输入行中请不要只输入空格");
-				     T3.setFill(Color.RED);
-				     T3.setFont(Font.font(15));
-				     VText.add(T3);
-				     list.getItems().add(T3);
-				     gridpaneRight.add(list, 14, 12);
-				     return;
-				 }
+			String S1 = TFiled1.getText();
+			String S2 = TFiled2.getText();
+			if (S1.length() >= 1 && S2.length() >= 1)
+			{
+				gridpaneRight.getChildren().remove(list);
+				list.getItems().clear();
 
-				 if (Temp1.contains(" ") || Temp2.contains(" "))
-				 {
-					 Text T3 = new Text("一个输入行请只输入一个单词");
-				     T3.setFill(Color.RED);
-				     T3.setFont(Font.font(15));
-				     VText.add(T3);
-				     list.getItems().add(T3);
-				     gridpaneRight.add(list, 14, 12);
-				     return;
-				 }
+				String Temp1 = ChangeText(S1);
+				String Temp2 = ChangeText(S2);
 
-				 String STr = D.GetBridgeWords(Temp1, Temp2);
-				 if (D.BridgeWords.size() != 0)
-				 {
-					 Text T3;
-					 if (D.BridgeWords.size() > 1)
-					 {
-					 	 T3 = new Text( "The bridge words from ");  //+ "\"" + S1 + "\" to \""  + S2 + "\" are: ");//改
-						 T3.setFill(Color.RED);
-					     T3.setFont(Font.font(15));
-					     VText.add(T3);
-					     list.getItems().add(T3);
+				if (Temp1.length() == 0 || Temp2.length() == 0)
+				{
+					Text T3 = new Text("输入行中请不要只输入空格");
+				    T3.setFill(Color.RED);
+				    T3.setFont(Font.font(15));
+				    VText.add(T3);
+				    list.getItems().add(T3);
+				    gridpaneRight.add(list, 14, 12);
+				    return;
+				}
 
-					     T3 = new Text( "\"" + Temp1 + "\" to \""  + Temp2 + "\" are: ");
-					     T3.setFill(Color.RED);
-					     T3.setFont(Font.font(15));
-					     VText.add(T3);
-					     list.getItems().add(T3);
+				if (Temp1.contains(" ") || Temp2.contains(" "))
+				{
+					Text T3 = new Text("一个输入行请只输入一个单词");
+				    T3.setFill(Color.RED);
+				    T3.setFont(Font.font(15));
+				    VText.add(T3);
+				    list.getItems().add(T3);
+				    gridpaneRight.add(list, 14, 12);
+				    return;
+				}
+
+				//调用桥接词控制类，产生两个单词之间的桥接词
+				ctrl_BridgeWord cbridge = new ctrl_BridgeWord(D.HeadNodeList, D.NodeList, D.Visit);
+				cbridge.init();
+				cbridge.getBridgeWords(Temp1, Temp2);//得到桥接词
+				cbridge.setBridgeWords();
+				cbridge.setKeyNode();
+				String STr = cbridge.answer;//得到答案
+				D.BridgeWords = cbridge.BridgeWords;
+				D.KeyNode = cbridge.KeyNode;
+
+				//String STr = D.GetBridgeWords(Temp1, Temp2);
+				if (D.BridgeWords.size() != 0)
+				{
+					Text T3;
+					if (D.BridgeWords.size() > 1)
+					{
+					 	T3 = new Text( "The bridge words from ");  //+ "\"" + S1 + "\" to \""  + S2 + "\" are: ");//改
+						T3.setFill(Color.RED);
+					    T3.setFont(Font.font(15));
+					    VText.add(T3);
+					    list.getItems().add(T3);
+
+					    T3 = new Text( "\"" + Temp1 + "\" to \""  + Temp2 + "\" are: ");
+					    T3.setFill(Color.RED);
+					    T3.setFont(Font.font(15));
+					    VText.add(T3);
+					    list.getItems().add(T3);
 
 					}
 					else
 					{
-						 T3 = new Text( "The bridge words from ");  //+ "\"" + S1 + "\" to \""  + S2 + "\" are: ");//改
-						 T3.setFill(Color.RED);
-					     T3.setFont(Font.font(15));
-					     VText.add(T3);
-					     list.getItems().add(T3);
+						T3 = new Text( "The bridge words from ");  //+ "\"" + S1 + "\" to \""  + S2 + "\" are: ");//改
+						T3.setFill(Color.RED);
+					    T3.setFont(Font.font(15));
+					    VText.add(T3);
+					    list.getItems().add(T3);
 
-					     T3 = new Text( "\"" + Temp1 + "\" to \""  + Temp2 + "\" is: ");
-					     T3.setFill(Color.RED);
-					     T3.setFont(Font.font(15));
-					     VText.add(T3);
-					     list.getItems().add(T3);
-					 }
+					    T3 = new Text( "\"" + Temp1 + "\" to \""  + Temp2 + "\" is: ");
+					    T3.setFill(Color.RED);
+					    T3.setFont(Font.font(15));
+					    VText.add(T3);
+					    list.getItems().add(T3);
+					}
 
-				     int Count = 0;
-				     String S = "";
-				     for (int i = 0; i < D.BridgeWords.size(); i++)
-				     {
-				    	 if (Count++ == 4)//改
-				    	 {
-				    		 Text TEXT = new Text(S);
-						     TEXT.setFill(Color.RED);
-						     TEXT.setFont(Font.font(15));
-						     VText.add(TEXT);
-						     list.getItems().add(TEXT);
-				    		 Count = 0;
-				    		 S = "";
-				    	 }
-				    	 else
-				    	 {
-				    		 S += D.BridgeWords.get(i);
-				    		 S += ", ";
-				    	 }
-				     }
-				     if (!S.equals(""))
-				     {
-				    	 Text TEXT = new Text(S);
-					     TEXT.setFill(Color.RED);
-					     TEXT.setFont(Font.font(15));
-					     VText.add(TEXT);
-					     list.getItems().add(TEXT);
+				    int Count = 0;
+				    String S = "";
+				    for (int i = 0; i < D.BridgeWords.size(); i++)
+				    {
+				    	if (Count++ == 4)//改
+				    	{
+				    		Text TEXT = new Text(S);
+						    TEXT.setFill(Color.RED);
+						    TEXT.setFont(Font.font(15));
+						    VText.add(TEXT);
+						    list.getItems().add(TEXT);
+				    		Count = 0;
+				    		S = "";
+				    	}
+				    	else
+				    	{
+				    		S += D.BridgeWords.get(i);
+				    		S += ", ";
+				    	}
+				    }
+				    if (!S.equals(""))
+				    {
+				    	Text TEXT = new Text(S);
+					    TEXT.setFill(Color.RED);
+					    TEXT.setFont(Font.font(15));
+					    VText.add(TEXT);
+					    list.getItems().add(TEXT);
 
+					    //调用控制类，生成有向图桥接词图片
+				        ctrl_GraphViz pic = new ctrl_GraphViz(D.HeadNodeList, D.KeyNode, D.ShortPath);
+				        pic.picture_qjc();
 
-					     D.picture_qjc();
+					 	pane.setAlignment(Pos.CENTER);
+					    Image image=new Image("file:\\D:\\qjcout.png", 700, 950, false, false);
+					    pane.getChildren().add(new ImageView(image));
+					    a.setTitle("桥接词有向图");
+					    a.setScene(scene);
+					    a.setX(40);
+			            a.setY(20);
+			            a.show();
+				    }
+				}
+				else
+				{
+					String Find;
 
-					 	 pane.setAlignment(Pos.CENTER);
-					     Image image=new Image("file:\\D:\\qjcout.png", 700, 950, false, false);
-					     pane.getChildren().add(new ImageView(image));
+				    Find = (STr.contains("from")) ? "from": "in";
+					String S = "";//改
+					int Index = STr.indexOf(Find);
 
+					int Limit = (STr.contains("from"))? Index + 4 : (Index + 2);
 
-					     a.setTitle("桥接词有向图");
-					     a.setScene(scene);
-					     a.setX(40);
-			             a.setY(20);
-			             a.show();
-				     }
-				 }
-				 else
-				 {
-					 String Find;
+					for (int i = 0; i < Limit; i++)
+						S += STr.charAt(i);
+					Text TEXT = new Text(S);
+				    TEXT.setFill(Color.RED);
+				    TEXT.setFont(Font.font(15));
+				    VText.add(TEXT);
+				    list.getItems().add(TEXT);
+				    S = "";
+				    for (int i = Limit; i < STr.length(); i++)
+					    S += STr.charAt(i);
+				    TEXT = new Text(S);
+				    TEXT.setFill(Color.RED);
+				    TEXT.setFont(Font.font(15));
+				    VText.add(TEXT);
+				    list.getItems().add(TEXT);
 
-				     Find = (STr.contains("from")) ? "from": "in";
-					 String S = "";//改
-					 int Index = STr.indexOf(Find);
+				}
+				gridpaneRight.add(list, 14, 12);
+			}
+			else
+			{
+				gridpaneRight.getChildren().remove(list);
+				list.getItems().clear();
+				Text T3 = new Text("请输入两个单词");
+				T3.setFill(Color.RED);
+				T3.setFont(Font.font(15));
+				VText.add(T3);
+				list.getItems().add(T3);
+				gridpaneRight.add(T3, 14, 12);
 
-					 int Limit = (STr.contains("from"))? Index + 4 : (Index + 2);
+			}
+		});
 
-					 for (int i = 0; i < Limit; i++)
-						 S += STr.charAt(i);
-					 Text TEXT = new Text(S);
-				     TEXT.setFill(Color.RED);
-				     TEXT.setFont(Font.font(15));
-				     VText.add(TEXT);
-				     list.getItems().add(TEXT);
-				     S = "";
-				     for (int i = Limit; i < STr.length(); i++)
-					     S += STr.charAt(i);
-				     TEXT = new Text(S);
-				     TEXT.setFill(Color.RED);
-				     TEXT.setFont(Font.font(15));
-				     VText.add(TEXT);
-				     list.getItems().add(TEXT);
+		gridpaneRight.add(T, 14, 1);
+		gridpaneRight.add(T1, 13, 4);
+		gridpaneRight.add(T2, 13, 7);
+		gridpaneRight.add(t, 14, 9);
+		gridpaneRight.add(TFiled1, 14, 4);
 
-				 }
-				 gridpaneRight.add(list, 14, 12);
-			 }
-			 else
-			 {
-				 gridpaneRight.getChildren().remove(list);
-				 list.getItems().clear();
-				 Text T3 = new Text("请输入两个单词");
-				 T3.setFill(Color.RED);
-				 T3.setFont(Font.font(15));
-				 VText.add(T3);
-				 list.getItems().add(T3);
-				 gridpaneRight.add(T3, 14, 12);
+		gridpaneRight.add(TFiled2, 14, 7);
 
-			 }
-		 });
-
-		 gridpaneRight.add(T, 14, 1);
-		 gridpaneRight.add(T1, 13, 4);
-		 gridpaneRight.add(T2, 13, 7);
-		 gridpaneRight.add(t, 14, 9);
-		 gridpaneRight.add(TFiled1, 14, 4);
-
-		 gridpaneRight.add(TFiled2, 14, 7);
-
-		 window.show();
-	 }
+		window.show();
+	}
 
 
 	public void  InputSents(BorderPane layout)
@@ -797,7 +788,12 @@ public class GUI extends Application {
 			 String Return = "";
 			 String Result = "";
 
-			 Result = D.GetNewFiles(Change);
+			 ////调用控制类，生成新文本
+			 ctrl_NewText ctext = new ctrl_NewText(D.HeadNodeList, D.NodeList, D.Visit);
+			 ctext.init();
+			 ctext.getNewText(Change);//生成新文本，存放于answer中
+			 Result = ctext.answer;
+			 //Result = D.GetNewFiles(Change);
 
 			 Change = ChangeText(Result);
 			 String[] Words = Change.split(" ");
@@ -943,12 +939,20 @@ public class GUI extends Application {
 			 {
 				 gridpaneRight.getChildren().remove(list);
 			     list.getItems().clear();
-				 D.TwoPointsGetShortPath(Temp1, Temp2);
-				 Text T3;
+
+			     //调用控制类，生成两个节点的最短路径
+			     ctrl_ShortestPath cpath = new ctrl_ShortestPath(D.HeadNodeList, D.NodeList, D.Visit);
+			     cpath.init();
+			     cpath.twoWords(Temp1, Temp2);//结果存放在NodeShortPath中
+			     cpath.setShortPath();
+			     cpath.setNodeShortPath();
+			     D.ShortPath = cpath.ShortPath;
+			     D.NodeShortPath = cpath.NodeShortPath;
+				 //D.TwoPointsGetShortPath(Temp1, Temp2);
 
 				 Vector <PQueue> V = D.NodeShortPath;
 
-
+				 Text T3;
 				 T3 = new Text("\"" + Temp1 + "\" 到   \"" +  Temp2 + "\"  的最短路径如下：");
 				 T3.setFill(Color.RED);
 				 T3.setFont(Font.font(15));
@@ -1012,8 +1016,11 @@ public class GUI extends Application {
 							 }
 		                	 Text = "";//改
 						 }
+		                 D.KeyNode.clear();
 
-		 				D.picture_zdlj();
+		                 //调用控制类，生成有向图最短路径图片
+				         ctrl_GraphViz pic = new ctrl_GraphViz(D.HeadNodeList, D.KeyNode, D.ShortPath);
+				         pic.picture_zdlj();
 
 		 				pane.setAlignment(Pos.CENTER);
 		 				Image image=new Image("file:\\D:\\zdljout.png", 700, 950, false, false);
@@ -1069,7 +1076,6 @@ public class GUI extends Application {
 		 t.setOnAction(e->{
 
 		 String S1 = TFiled1.getText();
-		 Vector<PQueue> V;
 		 if (S1.length() >= 1 )
 		 {
 			 String Temp1 = ChangeText(S1);
@@ -1122,8 +1128,13 @@ public class GUI extends Application {
 				 VText.add(T3);
 				 list.getItems().add(T3);
 
-				 D.TwoPointsGetShortPath(Temp1, Temp1);
-				 V = D.NodeShortPath;
+				//调用控制类，生成单源最短路径
+			     ctrl_ShortestPath cpath = new ctrl_ShortestPath(D.HeadNodeList, D.NodeList, D.Visit);
+			     cpath.init();
+			     cpath.twoWords(Temp1, Temp1);//结果存放在NodeShortPath中
+			     cpath.setNodeShortPath();
+			     D.NodeShortPath = cpath.NodeShortPath;
+			     Vector<PQueue> V = D.NodeShortPath;
 
 				 for (int i = 0; i < V.size(); i++)
 				 {
@@ -1258,6 +1269,7 @@ public class GUI extends Application {
 		 ListView<Text> list = new ListView<>();
 		 gridpaneRight.getChildren().clear();
 		 gridpaneRight.getChildren().remove(list);
+		 D.KeyNode.clear();
 		 list.getItems().clear();
 
 
@@ -1272,7 +1284,15 @@ public class GUI extends Application {
 		 t.setStyle("-fx-font: 15 arial; -fx-base: #ee2211;");
 		 t.setOnAction(e->{
 
-			 preword=D.RandomWalk(word);
+			 //调用控制类，产生随机游走单词
+			 ctrl_RandomWalk crandom = new ctrl_RandomWalk(D.HeadNodeList, D.NodeList, D.KeyNode);
+			 crandom.init();
+			 crandom.getRandomWord(word);
+			 crandom.setKeyNode();
+			 D.KeyNode = crandom.KeyNode;
+			 preword = crandom.word;
+			 //preword=D.RandomWalk(word);
+
 			 word=preword;
 			 if(!preword.equals(word) || !preword.equals("-end-"))
 			 {
@@ -1294,7 +1314,9 @@ public class GUI extends Application {
 				 WalkEnd();
 			 }
 
-			 D.picture_sjyz();
+			 //调用控制类，生成有向图随机游走图片
+	         ctrl_GraphViz pic = new ctrl_GraphViz(D.HeadNodeList, D.KeyNode, D.ShortPath);
+	         pic.picture_sjyz();
 
          	 pane.setAlignment(Pos.CENTER);
              Image image=new Image("file:\\D:\\sjyzout.png", 700, 950, false, false);
@@ -1352,27 +1374,6 @@ public class GUI extends Application {
 	 public void WriteToFile(Vector<String> Str)
 	 {
 			File file = new File("RandomWalkResult.txt");
-			/*if (file.exists())
-			{
-				System.out.println("File already exists");
-			}*/
-
-			/*try
-			(PrintWriter output = new PrintWriter(file) )
-			{
-				 String STR = "";
-				 for (int i = 1; i < Str.size() + 1; i++)
-				 {
-					 if (i % 8 == 0)
-					 {
-						 output.println(STR);
-						 STR = Str.get(i - 1);
-					 }
-					 STR += (i == 1)? (Str.get(i - 1)): ( Str.get(i - 1));
-				 }
-				 if (STR.length() >= 1)
-					 output.println(STR);
-				 //output.close();*/
 			try
 			(PrintWriter output = new PrintWriter(file) )
 			{

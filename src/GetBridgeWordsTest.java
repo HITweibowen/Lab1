@@ -1,27 +1,30 @@
-package lab1;
-
 import java.util.Vector;
-
-
 import org.junit.Before;
 import org.junit.Test;
 
 public class GetBridgeWordsTest {
-	Digraph G = new Digraph();
+	Digraph D = new Digraph();
+	ctrl_BridgeWord cbridge;
 	String File = "C:/Users/weibowen/Desktop/Lab.txt";
 	String Str = "";
 	String S = "";
 
 	@Before
 	public void setup() throws Exception {
-		G.ReadFileBuildDigraph(File);
+		D.ReadFileBuildDigraph(File);
+		cbridge = new ctrl_BridgeWord(D.HeadNodeList, D.NodeList, D.Visit);
+		cbridge.init();
 	}
 
 	@Test
 	public void test1()
 	{
-        Str = G.GetBridgeWords("the", "of");
-        Vector<String> BridgeWords = G.BridgeWords;
+		cbridge.getBridgeWords("the", "of");//得到桥接词
+		cbridge.setBridgeWords();
+		Str = cbridge.answer;//得到答案
+		D.BridgeWords = cbridge.BridgeWords;
+
+        Vector<String> BridgeWords = D.BridgeWords;
         if (BridgeWords.size() >= 1)
 		{
             if (BridgeWords.size() == 1) {
@@ -43,8 +46,12 @@ public class GetBridgeWordsTest {
 
 	@Test
 	public void test2() {
-		Str = G.GetBridgeWords("big", "time");
-        Vector<String> BridgeWords = G.BridgeWords;
+		cbridge.getBridgeWords("big", "time");//得到桥接词
+		cbridge.setBridgeWords();
+		Str = cbridge.answer;//得到答案
+		D.BridgeWords = cbridge.BridgeWords;
+
+        Vector<String> BridgeWords = D.BridgeWords;
         if (BridgeWords.size() >= 1)
 		{
             if (BridgeWords.size() == 1)
@@ -62,8 +69,12 @@ public class GetBridgeWordsTest {
 
 	@Test
 	public void test3() {
-		Str = G.GetBridgeWords("time", "big");
-        Vector<String> BridgeWords = G.BridgeWords;
+		cbridge.getBridgeWords("time", "big");//得到桥接词
+		cbridge.setBridgeWords();
+		Str = cbridge.answer;//得到答案
+		D.BridgeWords = cbridge.BridgeWords;
+
+        Vector<String> BridgeWords = D.BridgeWords;
         if (BridgeWords.size() >= 1)
 		{
             if (BridgeWords.size() == 1)
@@ -81,8 +92,12 @@ public class GetBridgeWordsTest {
 
 	@Test
 	public void test4() {
-		Str = G.GetBridgeWords("time", "time");
-        Vector<String> BridgeWords = G.BridgeWords;
+		cbridge.getBridgeWords("time", "time");//得到桥接词
+		cbridge.setBridgeWords();
+		Str = cbridge.answer;//得到答案
+		D.BridgeWords = cbridge.BridgeWords;
+
+        Vector<String> BridgeWords = D.BridgeWords;
         if (BridgeWords.size() >= 1)
 		{
             if (BridgeWords.size() == 1)
@@ -100,8 +115,12 @@ public class GetBridgeWordsTest {
 
 	@Test
 	public void test5() {
-		Str = G.GetBridgeWords("in", "time1");
-        Vector<String> BridgeWords = G.BridgeWords;
+		cbridge.getBridgeWords("in", "time1");//得到桥接词
+		cbridge.setBridgeWords();
+		Str = cbridge.answer;//得到答案
+		D.BridgeWords = cbridge.BridgeWords;
+
+        Vector<String> BridgeWords = D.BridgeWords;
         if (BridgeWords.size() >= 1)
 		{
             if (BridgeWords.size() == 1)
@@ -119,8 +138,12 @@ public class GetBridgeWordsTest {
 
 	@Test
 	public void test6() {
-		Str = G.GetBridgeWords("in1", "time");
-        Vector<String> BridgeWords = G.BridgeWords;
+		cbridge.getBridgeWords("in1", "time");//得到桥接词
+		cbridge.setBridgeWords();
+		Str = cbridge.answer;//得到答案
+		D.BridgeWords = cbridge.BridgeWords;
+
+        Vector<String> BridgeWords = D.BridgeWords;
         if (BridgeWords.size() >= 1)
 		{
             if (BridgeWords.size() == 1)
@@ -138,8 +161,12 @@ public class GetBridgeWordsTest {
 
 	@Test
 	public void test7() {
-		Str = G.GetBridgeWords("abc", "time1");
-        Vector<String> BridgeWords = G.BridgeWords;
+		cbridge.getBridgeWords("abc", "time1");//得到桥接词
+		cbridge.setBridgeWords();
+		Str = cbridge.answer;//得到答案
+		D.BridgeWords = cbridge.BridgeWords;
+
+        Vector<String> BridgeWords = D.BridgeWords;
         if (BridgeWords.size() >= 1)
 		{
             if (BridgeWords.size() == 1)
